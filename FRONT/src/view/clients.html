@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgencyFlow - Gestion des Clients</title>
+    <link rel="stylesheet" href="/FRONT/src/css/clients-style.css">
+      <link rel="stylesheet" href="/FRONT/src/css/aside.css"> 
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="/FRONT/assets/téléchargement (1).png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="dashboard-container">
+    <aside class="sidebar">
+        <div class="logo">
+            <h2>Agency<span>Flow</span></h2>
+        </div>
+        <nav>
+            <ul class="sidebar-menu">
+                <li><a href="home.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="vehicules.html"><i class="fas fa-car"></i> Véhicules</a></li>
+                <li class="active"><a href="clients.html"><i class="fas fa-users"></i> Clients</a></li>
+                <li><a href="reservations.html"><i class="fas fa-calendar-alt"></i> Réservations</a></li>
+                <li id="menu-employees"><a href="employees.html"><i class="fas fa-users-cog"></i> Gestion Employés</a></li>
+
+            </ul>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="#" id="btn-logout">
+                <i class="fas fa-sign-out-alt"></i> Déconnexion
+            </a>
+        </div>
+    </aside>
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Rechercher un client...">
+                </div>
+                <div class="user-info">
+                    <span id="user_info"></span>
+                    <div class="avatar"><i class="fa-regular fa-user"></i></div>
+                </div>
+            </header>
+
+            <section class="content">
+                <div class="page-header">
+                    <div>
+                        <h1>Liste des Clients</h1>
+                        <p>Gérez les informations de vos client.</p>
+                    </div>
+                    
+                    <button class="btn-add"><i class="fas fa-user-plus"></i> Nouveau Client</button>
+                </div>
+                <div class="filter-container" style="margin-bottom: 20px; display: flex; gap: 10px;">
+    <button class="filter-btn badge info" data-status="all" style="cursor:pointer; border:none;">Tous</button>
+    <button class="filter-btn badge success" data-status="actif" style="cursor:pointer; border:none; opacity: 0.6;">Actifs</button>
+    <button class="filter-btn badge danger" data-status="bloqué" style="cursor:pointer; border:none; opacity: 0.6;">Bloqués</button>
+</div>
+                <div class="table-container">
+                    <table class="styled-table">
+                        <thead>
+                            <tr>
+                                <th>Client</th>
+                                <th>N° Permis</th>
+                                <th>CIN</th>
+                                <th>Téléphone</th>
+                                <th>Statut</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+    <div id="client-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Nouveau Client</h3>
+           
+        </div>
+        <form id="client-form">
+            <div class="form-group">
+                <label>Prénom</label>
+                <input type="text" id="client-prenom" required placeholder="Ex: Ahmed">
+            </div>
+            <div class="form-group">
+                <label>Nom</label>
+                <input type="text" id="client-nom" required placeholder="Ex: Alami">
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="client-email" required placeholder="client@email.com">
+            </div>
+            <div class="form-group">
+                <label>Téléphone</label>
+                <input type="text" id="client-phone" required placeholder="0612345678">
+            </div>
+            <div class="form-group">
+                <label>CIN</label>
+                <input type="text" id="client-cin" required placeholder="Ex: BJ12345">
+            </div>
+            <div class="form-group">
+                <label>N° Permis</label>
+                <input type="text" id="client-permis" required placeholder="Ex: 22/AA/12345">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-cancel" id="btn-close-client-modal">Annuler</button>
+                <button type="submit" class="btn-save">Enregistrer</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div id="modal-edit-client" class="modal" style="display: none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Modifier le Client</h3>
+        </div>
+        <form id="edit-client-form">
+            <input type="hidden" id="edit-client-id">
+            
+            <div class="form-group">
+                <label>Prénom</label>
+                <input type="text" id="edit-prenom" required>
+            </div>
+            <div class="form-group">
+                <label>Nom</label>
+                <input type="text" id="edit-nom" required>
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="edit-email" required>
+            </div>
+            <div class="form-group">
+                 <label>Téléphone</label>
+                <input type="text" id="edit-phone" required>
+            </div>
+            <div class="form-group">
+                <label>Statut</label>
+                <select id="edit-status" class="status-select">
+                    <option value="actif">Actif</option>
+                    <option value="bloqué">Bloqué</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn-save">Mettre à jour</button>
+                <button type="button" class="btn-cancel" onclick="document.getElementById('modal-edit-client').style.display='none'">Annuler</button>
+                
+            </div>
+        </form>
+    </div>
+</div>
+<div id="delete-client-modal" class="modal" style="display: none;">
+    <div class="modal-content confirm-card">
+        <div class="confirm-icon danger">
+            <i class="fas fa-user-minus"></i>
+        </div>
+        <h3>Supprimer le client ?</h3>
+        <p>Êtes-vous sûr de vouloir supprimer ce client ? Cette action est définitive et supprimera tout son historique.</p>
+        
+        <div class="confirm-buttons">
+            <button class="btn-secondary" id="btn-cancel-delete">Annuler</button>
+            <button class="btn-danger" id="btn-confirm-delete">Supprimer définitivement</button>
+        </div>
+    </div>
+</div>
+<div id="success-toast" class="toast-card">
+    <div class="toast-content">
+        <div class="toast-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="toast-message">
+            <span class="text-1">Succès</span>
+            <span class="text-2" id="success-msg">L'opération a été réussie !</span>
+        </div>
+    </div>
+    <div class="toast-progress"></div>
+</div>
+<div id="error-toast" class="toast-card error">
+    <div class="toast-content">
+        <div class="toast-icon danger">
+            <i class="fas fa-exclamation-circle"></i>
+        </div>
+        <div class="toast-message">
+            <span class="text-1">Erreur</span>
+            <span class="text-2" id="error-msg">Une erreur est survenue.</span>
+        </div>
+    </div>
+    <div class="toast-progress"></div>
+</div>
+    <script type="module" src="/FRONT/src/controller/location.js"></script>
+</body>
+</html>

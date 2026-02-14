@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgencyFlow - Véhicules</title>
+    <link rel="stylesheet" href="/FRONT/src/css/vehicules.css">
+    <link rel="stylesheet" href="/FRONT/src/css/aside.css"> 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="shortcut icon" href="/FRONT/assets/téléchargement (1).png" type="image/x-icon">
+</head>
+<body>
+
+    <div class="dashboard-container">
+    <aside class="sidebar">
+        <div class="logo">
+            <h2>Agency<span>Flow</span></h2>
+        </div>
+        <nav>
+            <ul class="sidebar-menu">
+                <li><a href="home.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li class="active"><a href="vehicules.html"><i class="fas fa-car"></i> Véhicules</a></li>
+                <li ><a href="clients.html"><i class="fas fa-users"></i> Clients</a></li>
+                <li><a href="reservations.html"><i class="fas fa-calendar-alt"></i> Réservations</a></li>
+                <li id="menu-employees"><a href="employees.html"><i class="fas fa-users-cog"></i> Gestion Employés</a></li>
+
+            </ul>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="#" id="btn-logout">
+                <i class="fas fa-sign-out-alt"></i> Déconnexion
+            </a>
+        </div>
+    </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Rechercher un véhicule...">
+                </div>
+                <select id="status-filter" class="status-select">
+        <option value="all">Tous les statuts</option>
+        <option value="disponible">Disponibles</option>
+        <option value="loué">Loués</option>
+        <option value="maintenance">En Maintenance</option>
+    </select>
+                <div class="user-info">
+                    <span id="user_info"></span>
+                    <div class="avatar"><i class="fas fa-user"></i ></div>
+                </div>
+            </header>
+
+            <section class="content">
+                <div class="page-header">
+                    <h1>Gestion des Véhicules</h1>
+                    <button class="btn-add" id="btn-add"><i class="fas fa-plus"></i> Nouveau Véhicule</button>
+                </div>
+
+                <div class="table-container">
+                    <table class="styled-table">
+                        <thead>
+                            <tr>
+                                <th>Photo</th>
+                                <th>Marque & Modèle</th>
+                                <th>Immatriculation</th>
+                                <th>Prix/jour</th>
+                                <th>Statut</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cars-table-body">
+                            </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="car-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <h3><i class="fas fa-car"></i> Ajouter un véhicule</h3>
+            <form id="add-car-form">
+                <div class="form-group">
+                    <label for="modal-brand">Marque</label>
+                    <input type="text" id="modal-brand" placeholder="Ex: Renault" required>
+                </div>
+                <div class="form-group">
+                    <label for="modal-model">Modèle</label>
+                    <input type="text" id="modal-model" placeholder="Ex: Clio 5" required>
+                </div>
+                <div class="form-group">
+                    <label for="modal-plate">Immatriculation</label>
+                    <input type="text" id="modal-plate" placeholder="Ex: 12345-A-67" required>
+                </div>
+                <div class="form-group">
+                    <label for="modal-price">Prix journalier (DH)</label>
+                    <input type="number" id="modal-price" placeholder="Ex: 350" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="submit" class="btn-save">Enregistrer</button>
+                    <button type="button" class="btn-cancel" id="btn-close-modal">Annuler</button>
+                    </div>
+            </form>
+        </div>
+    </div>
+<div id="delete-confirm-modal" class="modal" style="display: none;">
+    <div class="modal-content confirm-card">
+        <div class="confirm-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <h3>Supprimer le véhicule ?</h3>
+        <p>Cette action est irréversible. Toutes les données liées à ce véhicule seront définitivement effacées.</p>
+        
+        <div class="confirm-buttons">
+            <button class="btn-danger" id="confirm-delete-btn">Supprimer</button>
+             <button class="btn-secondary" id="cancel-delete">Annuler</button>
+        </div>
+    </div>
+</div>
+<div id="success-toast" class="toast-card">
+    <div class="toast-content">
+        <div class="toast-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="toast-message">
+            <span class="text-1">Succès</span>
+            <span class="text-2" id="success-msg">L'opération a été réussie !</span>
+        </div>
+    </div>
+    <div class="toast-progress"></div>
+</div>
+<div id="error-toast" class="toast-card error">
+    <div class="toast-content">
+        <div class="toast-icon danger">
+            <i class="fas fa-exclamation-circle"></i>
+        </div>
+        <div class="toast-message">
+            <span class="text-1">Erreur</span>
+            <span class="text-2" id="error-msg">Une erreur est survenue.</span>
+        </div>
+    </div>
+    <div class="toast-progress"></div>
+</div>
+<div id="maintenance-modal" class="modal" style="display: none;">
+    <div class="modal-content confirm-card">
+        <div class="confirm-icon warning">
+            <i class="fas fa-tools"></i>
+        </div>
+        <h3 id="maint-modal-title">Changement de statut</h3>
+        <p id="maint-modal-text"></p>
+        <div class="confirm-buttons">
+            <button class="btn-secondary" id="maint-cancel">Annuler</button>
+            <button class="btn-save" id="maint-confirm">Confirmer</button>
+        </div>
+    </div>
+</div>
+    <script type="module" src="/FRONT/src/controller/CarController.js"></script>
+</body>
+</html>

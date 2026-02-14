@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgencyFlow - Tableau de bord</title>
+    <link rel="stylesheet" href="/FRONT/src/css/homestyle.css">
+    <link rel="stylesheet" href="/FRONT/src/css/aside.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="shortcut icon" href="/FRONT/assets/téléchargement (1).png" type="image/x-icon">
+
+</head>
+<body>
+    <div id="welcome-notification" class="welcome-toast">
+    <div class="toast-content">
+        <i class="fas fa-check-circle"></i>
+        <div class="message">
+            <span class="text text-1">Connexion réussie</span>
+            <span class="text text-2" id="welcome-name">Bonjour, Sofia !</span>
+        </div>
+    </div>
+    <div class="progress"></div>
+</div>
+
+    <div class="dashboard-container">
+    <aside class="sidebar">
+        <div class="logo">
+            <h2>Agency<span>Flow</span></h2>
+        </div>
+        <nav>
+            <ul class="sidebar-menu">
+                <li class="active"><a href="home.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="vehicules.html"><i class="fas fa-car"></i> Véhicules</a></li>
+                <li ><a href="clients.html"><i class="fas fa-users"></i> Clients</a></li>
+                <li><a href="reservations.html"><i class="fas fa-calendar-alt"></i> Réservations</a></li>
+                <li id="menu-employees"><a href="employees.html"><i class="fas fa-users-cog"></i> Gestion Employés</a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="#" id="btn-logout">
+                <i class="fas fa-sign-out-alt"></i> Déconnexion
+            </a>
+        </div>
+    </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                
+                <div  class="user-info">
+                    <span id="user_info"></span>
+                    <div class="avatar"><i class="fas fa-user"></i></div>
+                </div>
+                
+            </header>
+
+            <section class="content">
+                <div class="welcome-msg">
+                    <h1>Tableau de Bord</h1>
+                    <p>Voici l'état actuel de votre flotte automobile.</p>
+                </div>
+
+                <div class="stats-grid">
+    <div class="stat-card">
+        <div class="icon blue"><i class="fas fa-car"></i></div>
+        <div>
+            <p>Total Véhicules</p>
+            <h3>0</h3>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="icon orange"><i class="fas fa-tools"></i></div>
+        <div>
+            <p>En Maintenance</p>
+            <h3>0</h3>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="icon green"><i class="fas fa-check-circle"></i></div>
+        <div>
+            <p>Disponibles</p>
+            <h3>0</h3>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="icon red"><i class="fas fa-wallet"></i></div>
+        <div>
+            <p>Chiffre d'Affaires</p>
+            <h3 id="total-revenue">0 DH</h3>
+        </div>
+    </div>
+</div>
+
+                <div class="recent-activity">
+                    <h3>Activités Récentes</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Véhicule</th>
+                                <th>Clients</th>
+                                <th>Date</th>
+                                <th>Statut</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Peugeot 208 - AA-123-BB</td>
+                                <td>Jean Dupont</td>
+                                <td>28 Déc 2025</td>
+                                <td><span class="badge success">En cours</span></td>
+                            </tr>
+                            <tr>
+                                <td>Renault Clio - CC-456-DD</td>
+                                <td>Marie Curie</td>
+                                <td>27 Déc 2025</td>
+                                <td><span class="badge warning">Maintenance</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+    <div id="details-res-modal" class="modal" style="display: none;">
+    <div class="modal-content res-details-card">
+        <div class="modal-header">
+            <h3><i class="fas fa-file-invoice"></i> Détails de la Location</h3>
+      
+        </div>
+        <div class="modal-body">
+            <div class="res-info-section">
+                <h4><i class="fas fa-user"></i> Informations Client</h4>
+                <p><strong>Nom :</strong> <span id="det-res-client"></span></p>
+                <p><strong>Téléphone :</strong> <span id="det-res-tel"></span></p>
+                <p><strong>CIN:</strong><span id="det-res-cin"></span></p>
+            </div>
+            <hr>
+            <div class="res-info-section">
+                <h4><i class="fas fa-car"></i> Véhicule</h4>
+                <p><strong>Modèle :</strong> <span id="det-res-car"></span></p>
+                <p><strong>Matricule :</strong> <span id="det-res-car-mat"></span></p>
+
+                <p><strong>Prix/Jour :</strong> <span id="det-res-price"></span> DH</p>
+            </div>
+            <hr>
+            <div class="res-info-section">
+                <h4><i class="fas fa-calendar-check"></i> Séjour</h4>
+                <p><strong>Du :</strong> <span id="det-res-start"></span></p>
+                <p><strong>Au :</strong> <span id="det-res-end"></span></p>
+                <p class="total-highlight"><strong>Total :</strong> <span id="det-res-total"></span> DH</p>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-secondary" onclick="closeResDetails()">Fermer</button>
+        </div>
+    </div>
+</div>
+<script type="module" src="/FRONT/src/controller/home.js"></script>
+</body>
+</html>

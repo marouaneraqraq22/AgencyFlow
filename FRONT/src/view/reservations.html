@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgencyFlow - Gestion des Réservations</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/FRONT/src/css/reservation.css">
+    <link rel="stylesheet" href="/FRONT/src/css/aside.css"> 
+    <link rel="shortcut icon" href="/FRONT/assets/téléchargement (1).png" type="image/x-icon">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js" defer></script>
+    <script type="module" src="/FRONT/src/controller/reservation.js" defer></script>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <h2>Agency<span>Flow</span></h2>
+            </div>
+            <nav>
+                <ul class="sidebar-menu">
+                    <li><a href="home.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="vehicules.html"><i class="fas fa-car"></i> Véhicules</a></li>
+                    <li><a href="clients.html"><i class="fas fa-users"></i> Clients</a></li>
+                    <li class="active"><a href="reservations.html"><i class="fas fa-calendar-alt"></i> Réservations</a></li>
+                <li id="menu-employees"><a href="employees.html"><i class="fas fa-users-cog"></i> Gestion Employés</a></li>
+
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+            <a href="#" id="btn-logout">
+                <i class="fas fa-sign-out-alt"></i> Déconnexion
+            </a>
+        </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-res" placeholder="Rechercher une réservation (Client ou Plaque)...">
+                </div>
+                <div class="user-info">
+                    <span id="user_info">Chargement...</span>
+                    <div class="avatar"><i class="fas fa-user"></i></div>
+                </div>
+            </header>
+
+            <section class="content">
+                <div class="page-header">
+                    <div>
+                        <h1>Gestion des Locations</h1>
+                        <p>Suivez les contrats et les retours de véhicules.</p>
+                    </div>
+                    <button class="btn-add" id="btn-new-res"><i class="fas fa-plus"></i> Nouvelle Location</button>
+                </div>
+
+               <div class="filter-container" style="margin-bottom: 20px; display: flex; gap: 10px;">
+    <button class="filter-btn badge info" data-status="all" style="cursor:pointer; border:none;">Toutes</button>
+    <button class="filter-btn badge success" data-status="En cours" style="cursor:pointer; border:none; opacity: 0.6;">En cours</button>
+    <button class="filter-btn badge secondary" data-status="Terminée" style="cursor:pointer; border:none; opacity: 0.6;">Terminées</button>
+</div>
+
+                <div class="table-container">
+                    <table class="styled-table">
+                        <thead>
+                            <tr>
+                                <th>Facture</th>
+                                <th>Client</th>
+                                <th>Véhicule</th>
+                                <th>Date Début</th>
+                                <th>Date Fin</th>
+                                <th>Total (DH)</th>
+                                <th>Statut</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="res-table-body">
+                            </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="res-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Créer une nouvelle location</h3>
+            </div>
+            <form id="res-form">
+                <div class="form-group">
+                    <label>Choisir un Client</label>
+                    <div class="form-group">
+    <label>Chercher ou sélectionner un Client</label>
+    <div style="position: relative;">
+        <input type="text" id="res-client-search" list="clients-list" placeholder="Tapez le nom du client..." required autocomplete="off">
+        
+        <datalist id="clients-list"></datalist>
+        
+        <input type="hidden" id="res-client-id">
+    </div>
+</div>
+                </div>
+                <div class="form-group">
+                    <label>Choisir un Véhicule (Disponible)</label>
+                    <select id="res-car" required>
+                        <option value="">-- Sélectionner un véhicule --</option>
+                    </select>
+                </div>
+                <div style="display: flex; gap: 15px;">
+                    <div class="form-group" style="flex: 1;">
+                        <label>Date de début</label>
+                        <input type="date" id="res-start" required>
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label>Date de fin</label>
+                        <input type="date" id="res-end" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div id="price-preview" style="font-weight: bold; color: #2563eb;">Total estimé : 0 DH</div>
+                    <button type="submit" class="btn-save">Confirmer la location</button>
+                    <button class="btn-cancel" id="close-res-modal">Annuler</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="success-toast" class="toast-card">
+    <div class="toast-content">
+        <div class="toast-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="toast-message">
+            <span class="text-1">Succès</span>
+            <span class="text-2" id="success-msg">L'opération a été réussie !</span>
+        </div>
+    </div>
+    <div class="toast-progress"></div>
+</div>
+<div id="error-toast" class="toast-card error">
+    <div class="toast-content">
+        <div class="toast-icon danger">
+            <i class="fas fa-exclamation-circle"></i>
+        </div>
+        <div class="toast-message">
+            <span class="text-1">Erreur</span>
+            <span class="text-2" id="error-msg">Une erreur est survenue.</span>
+        </div>
+    </div>
+    <div class="toast-progress"></div>
+</div>
+<div id="cancel-res-modal" class="modal" style="display: none;">
+    <div class="modal-content confirm-card">
+        <div class="confirm-icon danger">
+            <i class="fas fa-calendar-times"></i>
+        </div>
+        <h3>Annuler la réservation ?</h3>
+        <p>Êtes-vous sûr de vouloir annuler cette réservation ? Cette action libérera le véhicule immédiatement.</p>
+        
+        <div class="confirm-buttons">
+            <button class="btn-secondary" id="btn-abort-cancel">Retour</button>
+            <button class="btn-danger" id="btn-confirm-cancel">Confirmer l'annulation</button>
+        </div>
+    </div>
+</div>
+<div id="complete-res-modal" class="modal" style="display: none;">
+    <div class="modal-content confirm-card">
+        <div class="confirm-icon success">
+            <i class="fas fa-key"></i>
+        </div>
+        <h3>Restitution du véhicule</h3>
+        <p>Confirmez-vous que le véhicule a été rendu en bon état ? Cela marquera la réservation comme terminée.</p>
+        
+        <div class="confirm-buttons">
+            <button class="btn-secondary" id="btn-abort-complete">Annuler</button>
+            <button class="btn-save" id="btn-confirm-complete">Confirmer la restitution</button>
+        </div>
+    </div>
+</div>
+    <script type="module" src="/FRONT/src/controller/reservation.js"></script>
+</body>
+</html>

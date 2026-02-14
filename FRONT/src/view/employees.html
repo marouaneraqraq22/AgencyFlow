@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion Employés - AgencyFlow</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/FRONT/src/css/employess.css">
+    <link rel="stylesheet" href="/FRONT/src/css/aside.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link rel="shortcut icon" href="/FRONT/assets/téléchargement (1).png" type="image/x-icon">
+
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+    <div class="logo">
+        <h2>Agency<span>Flow</span></h2>
+    </div>
+    <nav>
+        <ul class="sidebar-menu">
+            <li><a href="home.html"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li><a href="/FRONT/src/view/Vehicules.html"><i class="fas fa-car"></i> Véhicules</a></li>
+            <li><a href="/FRONT/src/view/clients.html"><i class="fas fa-users"></i> Clients</a></li>
+            <li><a href="/FRONT/src/view/reservations.html"><i class="fas fa-calendar-alt"></i> Réservations</a></li>
+            <li id="menu-employees" class="active">
+                <a href="employees.html"><i class="fas fa-users-cog"></i> Gestion Employés</a>
+            </li>
+        </ul>
+    </nav>
+    <div class="sidebar-footer">
+        <a href="#" id="btn-logout">
+            <i class="fas fa-sign-out-alt"></i> Déconnexion
+        </a>
+    </div>
+</aside>
+
+        <main class="main-content">
+            <header>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchEmployee" placeholder="Rechercher par nom ou email...">
+                </div>
+                
+                <div class="user-profile">
+                    <span id="user_info">Chargement...</span>
+                    <div class="user-avatar"><i class="fas fa-user-shield"></i></div>
+                </div>
+            </header>
+
+            <div class="table-controls">
+                <div class="content">
+                    <h1>Gestion des Employés</h1>
+                    <p>Gérez les accès et les rôles de votre équipe</p>
+                </div>
+                <button class="btn-add" id="btn-add-employee">
+                    <i class="fas fa-user-plus"></i> Ajouter un employé
+                </button>
+            </div>
+            <div class="filter-group" style="margin: 5px 0; display: flex; gap: 10px;">
+    <button class="filter-btn badge info" data-role="all" style="cursor:pointer; border:none; padding: 10px 20px;">
+        <i class="fas fa-users"></i> Toutes
+    </button>
+    <button class="filter-btn badge danger" data-role="admin" style="cursor:pointer; border:none; padding: 10px 20px; opacity: 0.6;">
+        <i class="fas fa-user-shield"></i> Admin
+    </button>
+    <button class="filter-btn badge success" data-role="agent" style="cursor:pointer; border:none; padding: 10px 20px; opacity: 0.6;">
+        <i class="fas fa-user-tie"></i> Agent
+    </button>
+</div>
+            <div class="table-container">
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Avatar</th>
+                            <th>Nom & Prénom</th>
+                            <th>Email</th>
+                            <th>Rôle</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="employees-table-body">
+                        </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <div id="employee-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3>Ajouter un employée</h3>
+            <form id="employee-form">
+                <div class="form-group">
+                    <label>Prénom</label>
+                    <input type="text" id="emp-prenom" required>
+                </div>
+                <div class="form-group">
+                    <label>Nom</label>
+                    <input type="text" id="emp-nom" required>
+                </div>
+                <div class="form-group">
+                    <label>Email Professionnel</label>
+                    <input type="email" id="emp-email" required>
+                </div>
+                <div class="form-group">
+                    <label>Mot de passe provisoire</label>
+                    <input type="password" id="emp-password" required>
+                </div>
+                <div class="form-group">
+                    <label>Rôle</label>
+                    <select id="emp-role">
+                        <option value="agent">Agent (Standard)</option>
+                        <option value="admin">Administrateur</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-cancel" id="btn-close-modal">Annuler</button>
+                    <button type="submit" class="btn-save">Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="success-toast" class="toast-card">
+    <div class="toast-content">
+        <div class="toast-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="toast-message">
+            <span class="text-1">Succès</span>
+            <span class="text-2" id="success-msg">L'opération a été réussie !</span>
+        </div>
+    </div>
+    <div class="toast-progress"></div>
+</div>
+<div id="error-toast" class="toast-card error">
+    <div class="toast-content">
+        <div class="toast-icon danger">
+            <i class="fas fa-exclamation-circle"></i>
+        </div>
+        <div class="toast-message">
+            <span class="text-1">Erreur</span>
+            <span class="text-2" id="error-msg">Une erreur est survenue.</span>
+        </div>
+    </div>
+    <div class="toast-progress"></div>
+</div>
+<div id="delete-emp-modal" class="modal" style="display: none;">
+    <div class="modal-content confirm-card">
+        <div class="confirm-icon danger">
+            <i class="fas fa-user-minus"></i>
+        </div>
+        <h3>Supprimer l'utilisateur ?</h3>
+        <p>Attention : Cette action retirera définitivement cet employé de l'équipe et révoquera ses accès au système.</p>
+        
+        <div class="confirm-buttons">
+            <button class="btn-secondary" id="cancel-emp-delete">Annuler</button>
+            <button class="btn-danger" id="confirm-emp-delete-btn">Supprimer</button>
+        </div>
+    </div>
+</div>
+    <script type="module" src="../controller/EmployeeController.js"></script>
+</body>
+</html>

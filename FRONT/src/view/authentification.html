@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Connexion - Locauto</title>
+    <link rel="stylesheet" href="/FRONT/src/css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="shortcut icon" href="/FRONT/assets/téléchargement (1).png" type="image/x-icon">
+</head>
+<body>
+    <div class="login-wrapper">
+        <div class="login-card">
+            <div class="logo-section">
+                <h1>Agency<span>Flow</span></h1>
+                <p>Gestion de flotte automobile</p>
+            </div>
+            
+            <form id="loginForm">
+                <div class="input-group">
+                    <label for="email">Identifiant Employé</label>
+                    <input type="text" id="email" name="email" placeholder="nom@agence.com" required>
+                </div>
+
+               <div class="input-group password-wrapper">
+    <label for="password">Mot de passe</label>
+    <div style="position: relative;">
+        <input type="password" id="password" name="password" placeholder="••••••••" required>
+        <i class="fas fa-eye toggle-password" id="togglePassword"></i>
+    </div>
+</div>
+                
+
+                <div class="form-options">
+                    <label><input type="checkbox"> Se souvenir de moi</label>
+                </div>
+                <div id="messageauth" class="alert-error">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span>Identifiant ou mot de passe incorrect !</span>
+                    </div><br>
+
+                <button id="login-btn" class="btn-login">
+                    <span id="btn-text">Se connecter</span>
+                    <i id="btn-spinner" class="fas fa-spinner fa-spin" style="display: none;"></i>
+                </button>           
+             </form>
+            
+            
+        </div>
+    </div>
+    <script type="module"   src="/FRONT/src/controller/login.js"></script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+/* aside.css */
+.sidebar {
+    width: 260px;
+    height: 100vh; /* Toute la hauteur de la fenêtre */
+    background-color: #1e293b;
+    color: white;
+    position: fixed; /* RESTE FIXE : ne bouge pas au scroll ni au changement de page */
+    top: 0;
+    left: 0;
+    z-index: 1000; /* Passe devant le contenu */
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* On force le contenu principal à laisser la place pour la barre fixe */
+.main-content {
+    margin-left: 260px; /* Même largeur que la sidebar */
+    width: calc(100% - 260px);
+}
+
+.sidebar .logo {
+    padding: 40px 30px;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.sidebar .logo span { color: #3b82f6; }
+
+.sidebar-menu {
+    list-style: none;
+    flex: 1;
+}
+
+.sidebar-menu li a {
+    color: #cbd5e1;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 30px;
+    transition: 0.3s;
+    border-left: 4px solid transparent;
+}
+
+.sidebar-menu li.active a {
+    background-color: #334155;
+    color: white;
+    border-left: 4px solid #3b82f6;
+}
+
+.sidebar-menu li:hover:not(.active) a {
+    background-color: #334155;
+    color: white;
+}
+
+.sidebar-footer {
+    padding: 30px;
+    border-top: 1px solid #334155;
+}
+
+.sidebar-footer a {
+    color: #f87171;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
